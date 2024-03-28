@@ -17,16 +17,18 @@
             </a>
             <div class="bg-indigo-300 rounded-xl h-20 text-center flex justify-center items-center w-[300px]"> Semester :
                 {{ $week->semester }}</div>
+                <div class="bg-indigo-300 rounded-xl h-20 text-center flex justify-center items-center w-[300px]"> Week N:
+                    {{ $week->week_number }}</div>
             <div class="bg-indigo-300 rounded-xl h-20 text-center flex justify-center items-center w-[300px]"> Semaine :
                 {{ $week->week_type }}</div>
             <div class="bg-indigo-300 rounded-xl h-20 text-center flex justify-center items-center w-[300px]">Du
                 {{ $week->global_week->start_week_date }} au {{ $week->global_week->end_week_date }}</div>
         </div>
 
-        <table class=" z-0 " style="width: calc({{ $battalion->sections->count() }}*130px + 300px)">
-            <tr>
-                <td class=" " style="visibility: hidden">Domaine JCP</td>{{-- //vide --}}
-                <td class="sticky top-0 z-10 ">
+        <table class="" style="width: calc({{ $battalion->sections->count() }}*130px + 300px);z-index : 60;">
+            <tr class="" style="z-index: 60;">
+                <td class="" style="visibility: hidden">Domaine JCP</td>{{-- //vide --}}
+                <td class="sticky top-0 " style="z-index: 60;">
                     @php
                         $companies_ST = $battalion->companies_ST;
                         $modules_ST = $battalion->modules_ST(1);
@@ -46,7 +48,7 @@
                     const teachers_ST = @json($teachers_ST);
                     const modules_ST = @json($modules_ST);
                 </script>
-                <td class="sticky top-0 z-10 ">
+                <td class="sticky top-0 z-10 "  style="z-index: 60;">
                     @php
                         $companies_MI = $battalion->companies_MI;
                         $modules_MI = $battalion->modules_MI(1);
@@ -60,10 +62,7 @@
                         const teachers_MI = @json($teachers_MI);
                         const modules_MI = @json($modules_MI);
                     </script>
-                    @include('weeks.domaine', [
-                        'companies' => $companies_MI,
-                        'domaine' => $domaine,
-                    ])
+                    @include('weeks.domaine', ['companies' => $companies_MI,'domaine' => $domaine])
                 </td>
             </tr>
             @php
@@ -73,7 +72,7 @@
             
 
             @for ($i = 0; $i < 5; $i++)
-                <tr class="h-[800px] ">
+                <tr class="h-[800px]" >
                     @php
                         $date = date('Y-m-d', strtotime('+1 days', strtotime($date)));
                     @endphp
@@ -115,7 +114,7 @@
 @push('scripts')
     @vite('resources/js/mark-absence.js')
     <script>
-        function setupEventListeners() {
+        async function setupEventListeners() {
             const UpdateForms = document.querySelectorAll(".update-form");
             const UpdateButtons = document.querySelectorAll(".update-button");
             const SectionButtons = document.querySelectorAll(".section-button");
@@ -165,16 +164,10 @@
                     parents.forEach(parent => {
                         parent.classList.remove("relative");
                     });
-
-
                     const parent = button.parentElement;
                     parent.classList.add("relative");
                     const nextElementSibling = button.nextElementSibling;
-                    // Hide all forms
                     nextElementSibling.classList.remove("hidden")
-
-                    // Show only the form corresponding to the clicked button
-                    // button.nextSibling.classList.remove("hidden");
 
                     event.preventDefault();
                 });
@@ -198,12 +191,8 @@
                     const parent = button.parentElement;
                     parent.classList.add("relative");
                     const nextElementSibling = button.nextElementSibling;
-                    // Hide all forms
 
                     nextElementSibling.classList.remove("hidden")
-
-                    // Show only the form corresponding to the clicked button
-                    // button.nextSibling.classList.remove("hidden");
 
                     event.preventDefault();
                 });
@@ -239,8 +228,8 @@
             });
 
         }
-        document.addEventListener("DOMContentLoaded", function() {
-            setupEventListeners(); 
+        document.addEventListener("DOMContentLoaded",async function() {
+            await setupEventListeners(); 
             setInterval(setupEventListeners, 5000);
         });
     </script>
