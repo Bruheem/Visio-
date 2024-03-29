@@ -14,7 +14,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
     @stack('header')
-    @vite('resources/js/app.js')
+    @vite('resources/js/app.ts')
     <!-- Scripts -->
     @vite(['resources/css/app.css'])
 
@@ -24,8 +24,8 @@
     <title>Document</title>
 </head>
 
-<body class="z-0">
-
+<body class="z-0 relative">
+    </div>
 
     <style>
         body {
@@ -36,47 +36,40 @@
         class="fixed  top-0 will-change-transform z-[300] left-0 w-screen h-screen bg-gray-100  flex items-center justify-center ">
         <div class="h-20 w-32 flex items-center justify-cente flex-col">
             <p class="text-xl w-30">Please wait</p>
-            <img src="/svg/spinner-3-svgrepo-com.svg" class="animate-spin duration-500 h-20 w-20" alt="">
+            <img src="/svg/6-dots-rotate.svg" alt="">
         </div>
 
     </div>
     <div class="flex w-screen">
-        <div class="w-[92px] h-screen sticky  top-0 z-10 ">
+        <div class="w-[92px] h-screen sticky bg-base-100 bg-opacity-80 backdrop-blur transition-shadow duration-100 [transform:translate3d(0,0,0)] 
+        shadow-sm  top-0 z-10 ">
             @include('inc.sidebar')
         </div>
-        <div class="w-[100%] z-0 flex justify-center items-center ">
-
+        <div class="w-[100%] pt-2 z-0 flex justify-center items-center ">
             @yield('content')
         </div>
     </div>
-
-
-
-
-
-
     <script>
-        
-        document.addEventListener('DOMContentLoaded', function() {
-            function showLoadingSpinner() {
+        document.addEventListener('DOMContentLoaded', async function() {
+            async function showLoadingSpinner() {
                 var loadingSpinner = document.querySelector('#loading-spinner');
                 if (loadingSpinner) {
-                    loadingSpinner.classList.remove('hidden');
+                    await loadingSpinner.classList.remove('hidden');
                 }
             }
             showLoadingSpinner();
 
-            function hideLoadingSpinner() {
+            async function hideLoadingSpinner() {
                 var loadingSpinner = document.querySelector('#loading-spinner');
                 if (loadingSpinner) {
-                    loadingSpinner.classList.add('hidden');
+                    await loadingSpinner.classList.add('hidden');
                 }
             }
-            window.addEventListener('load', function() {
-                hideLoadingSpinner();
+            window.addEventListener('load', async function() {
+                await hideLoadingSpinner();
             });
-            setTimeout(function() {
-                hideLoadingSpinner();
+            setTimeout(async function() {
+                await hideLoadingSpinner();
             }, 5000);
         });
     </script>

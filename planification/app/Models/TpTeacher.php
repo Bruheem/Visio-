@@ -5,14 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Absence extends Model
+class TpTeacher extends Model
 {
-
     use HasFactory;
-    
-    //has to teacher
-    public function absenceable()
+    protected $table = 'tp_teachers';
+    public function TpSession()
     {
-        return $this->morphTo();
+        return $this->belongsTo(Session::class,'session_id');
     }
 }
